@@ -28,7 +28,6 @@ class MemberManagerImpl(
 
     override val cachedMember: LoadingCache<UUID, Member> = Caffeine.newBuilder()
         .maximumSize(10000)
-        .expireAfterWrite(Duration.ofMinutes(30))
         .refreshAfterWrite(Duration.ofMinutes(5))
         .build(cacheLoader)
 
