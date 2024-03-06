@@ -1,8 +1,6 @@
 package ink.pmc.common.member
 
-import com.github.benmanes.caffeine.cache.CacheLoader
-import com.github.benmanes.caffeine.cache.Caffeine
-import com.github.benmanes.caffeine.cache.LoadingCache
+import com.github.benmanes.caffeine.cache.*
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.Filters
 import ink.pmc.common.member.api.Comment
@@ -15,6 +13,7 @@ import org.bson.Document
 import org.mongojack.JacksonMongoCollection
 import java.time.Duration
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 class MemberManagerImpl(
     override val collection: JacksonMongoCollection<Member>,
@@ -26,10 +25,10 @@ class MemberManagerImpl(
         collection.find(Filters.eq("uuid", it)).first()
     }
 
-    override val cachedMember: LoadingCache<UUID, Member> = Caffeine.newBuilder()
+    override val cachedMember: AsyncLoadingCache<UUID, Member> = Caffeine.newBuilder()
         .maximumSize(10000)
         .refreshAfterWrite(Duration.ofMinutes(5))
-        .build(cacheLoader)
+        .buildAsync(cacheLoader)
 
     init {
         if (punishmentIndexCollection.find(Filters.exists("lastId")).first() == null) {
@@ -70,7 +69,7 @@ class MemberManagerImpl(
     }
 
     override fun get(uuid: UUID): Member? {
-        return cachedMember.get(uuid)
+        return cachedMember.synchronous().get(uuid)
     }
 
     override fun exist(uuid: UUID): Boolean {
@@ -95,7 +94,7 @@ class MemberManagerImpl(
 
     override fun sync(member: Member): Boolean {
         try {
-            cachedMember.refresh(member.uuid)
+            cachedMember.synchronous().refresh(member.uuid)
         } catch (e: Exception) {
             return false
         }
@@ -105,7 +104,7 @@ class MemberManagerImpl(
 
     override fun syncAll(): Boolean {
         try {
-            cachedMember.invalidateAll()
+            cachedMember.synchronous().invalidateAll()
         } catch (e: Exception) {
             return false
         }
@@ -115,7 +114,7 @@ class MemberManagerImpl(
 
     private fun insertAndUpdateCache(member: Member) {
         collection.insertOne(member)
-        cachedMember.put(member.uuid, member)
+        cachedMember.put(member.uuid, CompletableFuture.completedFuture(member))
     }
 
 }
