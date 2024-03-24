@@ -1,6 +1,6 @@
 package ink.pmc.common.member.api.velocity
 
-import com.velocitypowered.api.proxy.Player
+import com.velocitypowered.api.proxy.connection.Player
 import ink.pmc.common.member.api.Member
 import ink.pmc.common.member.api.MemberAPI
 import ink.pmc.common.utils.concurrent.submitAsync
@@ -12,7 +12,7 @@ val Player.member: Member?
         val player = this
 
         val value = submitAsync<Member?> {
-            MemberAPI.instance.memberManager.get(player.uniqueId)
+            MemberAPI.instance.memberManager.get(player.id())
         }
 
         return value.asCompletableFuture().join()
@@ -20,5 +20,5 @@ val Player.member: Member?
 
 @Suppress("UNUSED")
 suspend fun Player.getMember(): Member? {
-    return MemberAPI.instance.memberManager.get(this.uniqueId)
+    return MemberAPI.instance.memberManager.get(this.id())
 }

@@ -55,7 +55,7 @@ val memberRemoveCommand = commandManager.commandBuilder("member")
                 return@submitAsync
             }
 
-            if (proxyServer.allPlayers.any { it.uniqueId == uuid }) {
+            if (proxyServer.connectedPlayers().any { it.id() == uuid }) {
                 sender.sendMessage(MEMBER_REMOVE_FAILED_ONLINE)
                 return@submitAsync
             }

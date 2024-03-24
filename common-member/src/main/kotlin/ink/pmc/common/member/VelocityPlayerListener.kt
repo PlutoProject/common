@@ -1,8 +1,8 @@
 package ink.pmc.common.member
 
 import com.velocitypowered.api.event.Subscribe
-import com.velocitypowered.api.event.connection.DisconnectEvent
-import com.velocitypowered.api.event.connection.PostLoginEvent
+import com.velocitypowered.api.event.player.DisconnectEvent
+import com.velocitypowered.api.event.player.PostLoginEvent
 import ink.pmc.common.utils.concurrent.submitAsync
 import java.util.*
 
@@ -12,8 +12,8 @@ object VelocityPlayerListener {
     @Subscribe
     fun postLoginEvent(event: PostLoginEvent) {
         submitAsync {
-            val player = event.player
-            val uuid = player.uniqueId
+            val player = event.player()
+            val uuid = player.id()
 
             if (!memberManager.exist(uuid)) {
                 player.disconnect(NOT_WHITELISTED)
@@ -32,8 +32,8 @@ object VelocityPlayerListener {
     @Subscribe
     fun disconnectEvent(event: DisconnectEvent) {
         submitAsync {
-            val player = event.player
-            val uuid = player.uniqueId
+            val player = event.player()
+            val uuid = player.id()
 
             if (!memberManager.exist(uuid)) {
                 return@submitAsync

@@ -3,8 +3,8 @@ package ink.pmc.common.member
 import com.google.inject.Inject
 import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.event.Subscribe
-import com.velocitypowered.api.event.proxy.ProxyInitializeEvent
-import com.velocitypowered.api.event.proxy.ProxyShutdownEvent
+import com.velocitypowered.api.event.lifecycle.ProxyInitializeEvent
+import com.velocitypowered.api.event.lifecycle.ProxyShutdownEvent
 import com.velocitypowered.api.plugin.Dependency
 import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.PluginContainer
@@ -41,7 +41,7 @@ class VelocityMemberPlugin {
 
     @Subscribe
     fun proxyInitializeEvent(event: ProxyInitializeEvent) {
-        pluginContainer = proxyServer.pluginManager.getPlugin("common-member").get()
+        pluginContainer = proxyServer.pluginManager().getPlugin("common-member")!!
 
         createDataDir()
         configFile = File(dataDir, "config.toml")
@@ -63,7 +63,7 @@ class VelocityMemberPlugin {
         commandManager.command(memberRemoveCommand)
         commandManager.command(memberLookupCommand)
 
-        proxyServer.eventManager.register(this, VelocityPlayerListener)
+        proxyServer.eventManager().register(this, VelocityPlayerListener)
     }
 
     @Subscribe

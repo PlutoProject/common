@@ -31,7 +31,7 @@ suspend fun getUUIDFromMojang(name: String): UUID? {
         return withContext(Dispatchers.IO) {
             val response = call.execute()
             val body = response.body
-            val jsonObject = JsonParser.parseString(body.string()).asJsonObject ?: return@withContext null
+            val jsonObject = JsonParser.parseString(body!!.string()).asJsonObject ?: return@withContext null
             val element = jsonObject.get("id") ?: return@withContext null
             val shortUUID = element.asString ?: return@withContext null
 

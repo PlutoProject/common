@@ -1,6 +1,6 @@
 package ink.pmc.common.member
 
-import com.velocitypowered.api.proxy.Player
+import com.velocitypowered.api.proxy.connection.Player
 
 fun Player.startPlay() {
     PlayTimeLogger.start(this)
