@@ -12,9 +12,9 @@ data class Loc2D(var world: World, var x: Double, var z: Double) : Cloneable {
     val chunk: Chunk
         get() {
             val loc = Location(world, x, 0.0, z)
-            val chunk = world.getChunkAtAsync(loc) // 防止线程上下文问题
+            val chunk = world.getChunkAt(loc) // 防止线程上下文问题
 
-            return chunk.join()
+            return chunk
         }
 
     fun add(x: Double, z: Double): Loc2D {

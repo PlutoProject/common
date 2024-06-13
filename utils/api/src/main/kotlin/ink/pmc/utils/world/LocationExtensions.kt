@@ -2,6 +2,10 @@ package ink.pmc.utils.world
 
 import org.bukkit.Location
 
+fun Location.toBlockLocation(): Location {
+    return Location(world, blockX.toDouble(), blockY.toDouble(), blockZ.toDouble())
+}
+
 fun toRawLocation(location: Location): Location {
     val rawLocation = location.toBlockLocation()
 

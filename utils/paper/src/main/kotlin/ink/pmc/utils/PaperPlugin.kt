@@ -4,8 +4,10 @@ import ink.pmc.utils.bedrock.floodgateApi
 import ink.pmc.utils.bedrock.floodgateApiClass
 import ink.pmc.utils.bedrock.floodgateSupport
 import ink.pmc.utils.bedrock.isFloodgatePlayer
+import ink.pmc.utils.chat.adventure
 import ink.pmc.utils.jvm.byteBuddy
 import ink.pmc.utils.platform.*
+import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 import java.util.concurrent.Executor
@@ -24,6 +26,8 @@ class PaperPlugin : JavaPlugin() {
         paperThread = Thread.currentThread()
         paper = server
         paperUtilsPlugin = this
+
+        adventure = BukkitAudiences.create(this)
 
         // Folia 上复写了 EventLoop 的 tell 方法，尝试直接提交任务会丢出 UnsupportedOperationException。
         if (!isFolia) {
@@ -44,6 +48,10 @@ class PaperPlugin : JavaPlugin() {
             floodgateApi = floodgateApiClass.getDeclaredMethod("getInstance").invoke(null)
             isFloodgatePlayer = floodgateApiClass.getDeclaredMethod("isFloodgatePlayer", UUID::class.java)
         }
+    }
+
+    override fun onDisable() {
+        adventure.close()
     }
 
 }

@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.plugin.extraProperties
-import org.jetbrains.kotlin.ir.backend.js.compile
 import xyz.jpenilla.runpaper.task.RunServer
 
 plugins {
@@ -350,6 +349,7 @@ allprojects {
         dep(rootProject.libs.jsoup)
         dep(rootProject.libs.caffeine)
         dep(rootProject.libs.adventure.kt)
+        dep(rootProject.libs.adventure.bukkit)
     }
 
     tasks.shadowJar {
