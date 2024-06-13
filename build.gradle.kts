@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.plugin.extraProperties
+import org.jetbrains.kotlin.ir.backend.js.compile
 import xyz.jpenilla.runpaper.task.RunServer
 
 plugins {
@@ -10,7 +11,7 @@ plugins {
     alias(libs.plugins.shadow)
     alias(libs.plugins.runpaper)
     alias(libs.plugins.protobuf)
-    alias(libs.plugins.paperweight.userdev)
+    // alias(libs.plugins.paperweight.userdev)
     alias(libs.plugins.resource.factory.bukkit)
     alias(libs.plugins.resource.factory.velocity)
 }
@@ -22,7 +23,7 @@ fun kotlin(s: String): String {
     return "org.jetbrains.kotlin.$s"
 }
 
-val bukkitApiVersion by extra("1.20")
+// val bukkitApiVersion by extra("1.20")
 val root = project
 
 fun Project.ensureParent(): Boolean {
@@ -142,7 +143,7 @@ fun Project.configurePaperPlugin() {
         bukkitPluginYaml {
             main = "${parent?.group}.PaperPlugin"
             name = parent?.name
-            apiVersion = bukkitApiVersion
+            // apiVersion = bukkitApiVersion
 
             if (name.get().contains("dependency-loader")) {
                 return@bukkitPluginYaml
@@ -194,7 +195,7 @@ fun Project.extraOrNull(key: String): Any? {
 fun Project.applySharedDevEnv() {
     dependencies {
         compileOnly(root.libs.velocity.api)
-        compileOnly(root.libs.paper.api)
+        compileOnly(root.libs.spigot.api)
     }
 }
 
@@ -219,9 +220,12 @@ fun Project.configurePaperDevEnv() {
         return
     }
 
-    configurePaperweight()
+    dependencies {
+        compileOnly(root.libs.spigot.api)
+    }
+    // configurePaperweight()
 
-    configurations.create("obf").extendsFrom(
+/*    configurations.create("obf").extendsFrom(
         configurations.reobf.get(),
         configurations.apiElements.get(),
         configurations.runtimeElements.get()
@@ -233,13 +237,13 @@ fun Project.configurePaperDevEnv() {
 
     tasks.assemble {
         dependsOn(tasks.reobfJar)
-    }
+    }*/
 }
 
 fun DependencyHandlerScope.implementationWithEnv(dep: Project) {
-    if (dep.extraOrNull(paperDevEnvProp) == true) {
+/*    if (dep.extraOrNull(paperDevEnvProp) == true) {
         implementation(project(path = dep.path, configuration = "obf"))
-    }
+    }*/
 
     implementation(dep)
 }
@@ -263,7 +267,7 @@ fun Project.configureApiDevEnv() {
 
     dependencies {
         compileOnly(root.libs.velocity.api)
-        compileOnly(root.libs.paper.api)
+        compileOnly(root.libs.spigot.api)
     }
 }
 
