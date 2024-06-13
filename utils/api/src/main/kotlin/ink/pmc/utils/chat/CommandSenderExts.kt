@@ -1,6 +1,7 @@
 package ink.pmc.utils.chat
 
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
+import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.title.Title
 import org.bukkit.command.CommandSender
@@ -17,4 +18,8 @@ fun CommandSender.showTitle(title: Title) {
 
 fun CommandSender.sendActionBar(component: Component) {
     adventure.sender(this).sendActionBar(component)
+}
+
+fun CommandSender.playSound(sound: Sound) {
+    adventure.sender(this).playSound(sound)
 }

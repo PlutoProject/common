@@ -11,10 +11,10 @@ import me.lucko.spark.api.SparkProvider
 import org.bukkit.command.CommandSender
 import org.bukkit.plugin.java.JavaPlugin
 import org.incendo.cloud.execution.ExecutionCoordinator
-import org.incendo.cloud.paper.PaperCommandManager
+import org.incendo.cloud.paper.LegacyPaperCommandManager
 import java.util.logging.Logger
 
-lateinit var commandManager: PaperCommandManager<CommandSender>
+lateinit var commandManager: LegacyPaperCommandManager<CommandSender>
 lateinit var plugin: JavaPlugin
 lateinit var spark: Spark
 lateinit var serverLogger: Logger
@@ -28,7 +28,7 @@ class PaperPlugin : JavaPlugin() {
         disabled = false
         serverLogger = logger
 
-        commandManager = PaperCommandManager.createNative(
+        commandManager = LegacyPaperCommandManager.createNative(
             this,
             ExecutionCoordinator.asyncCoordinator()
         )

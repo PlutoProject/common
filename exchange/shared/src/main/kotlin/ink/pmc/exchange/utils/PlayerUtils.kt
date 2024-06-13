@@ -4,6 +4,7 @@ import ink.pmc.exchange.*
 import ink.pmc.utils.bedrock.isBedrock
 import ink.pmc.utils.bedrock.useFallbackColors
 import ink.pmc.utils.chat.replace
+import ink.pmc.utils.chat.sendMessage
 import ink.pmc.utils.concurrent.submitSync
 import ink.pmc.utils.platform.paper
 import ink.pmc.utils.platform.paperUtilsPlugin

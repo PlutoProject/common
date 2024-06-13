@@ -5,6 +5,9 @@ import ink.pmc.advkt.sound.*
 import ink.pmc.advkt.title.*
 import ink.pmc.utils.chat.replace
 import ink.pmc.utils.visual.*
+import ink.pmc.utils.world.chunkCount
+import ink.pmc.utils.world.entityCount
+import ink.pmc.utils.world.playerCount
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.Component
