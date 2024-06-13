@@ -10,14 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 import java.util.concurrent.Executor
 
-private fun checkFolia(): Boolean {
-    try {
-        Class.forName("io.papermc.paper.threadedregions.RegionizedServer")
-        return true
-    } catch (e: ClassNotFoundException) {
-        return false
-    }
-}
+private fun checkFolia(): Boolean = false
 
 @Suppress("UNUSED")
 class PaperPlugin : JavaPlugin() {

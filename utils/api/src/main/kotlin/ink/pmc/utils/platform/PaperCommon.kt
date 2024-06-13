@@ -19,7 +19,7 @@ val isFoliaOrAsync: Boolean
 @Suppress("UNUSED")
 fun Player.threadSafeTeleport(location: Location) {
     if (isFoliaOrAsync) {
-        this.teleportAsync(location)
+        this.teleport(location)
         return
     }
 
