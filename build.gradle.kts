@@ -222,6 +222,7 @@ fun Project.configurePaperDevEnv() {
 
     dependencies {
         compileOnly(root.libs.spigot.api)
+        compileOnly(root.libs.spigot)
     }
     // configurePaperweight()
 
